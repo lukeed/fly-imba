@@ -11,20 +11,19 @@
 [![][dl-badge]][npm-pkg-link]
 [![][travis-badge]][travis-link]
 
-## Usage
-> Check out the [documentation](PLUGIN_DOCUMENTATION) to see the available options.
-
-### Install
+## Install
 
 ```a
 npm install -D fly-imba
 ```
 
-### Example
+## Example
 
 ```js
 export default function* () {
-  yield ...
+  yield this.source('app/**/*.imba')
+    .imba()
+    .target('dist/js');
 }
 ```
 
