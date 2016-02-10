@@ -11,6 +11,8 @@
 [![][dl-badge]][npm-pkg-link]
 [![][travis-badge]][travis-link]
 
+> Note: This plugin depends on a Imba PR. It will be published as `1.0.0` when the PR is accepted.
+
 ## Install
 
 ```a
