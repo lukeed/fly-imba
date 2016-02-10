@@ -4,13 +4,12 @@
   </a>
 </div>
 
-> [Imba](https://github.com/lukeed/fly-imba) plugin for _[Fly][fly]_.
+> Compile [Imba](http://imba.io/home) files with Fly.
 
 [![][fly-badge]][fly]
 [![npm package][npm-ver-link]][releases]
 [![][dl-badge]][npm-pkg-link]
 [![][travis-badge]][travis-link]
-[![][mit-badge]][mit]
 
 ## Usage
 > Check out the [documentation](PLUGIN_DOCUMENTATION) to see the available options.
@@ -31,11 +30,8 @@ export default function* () {
 
 ## License
 
-[MIT][mit] © [luke][author] et [al][contributors]
+MIT © [Luke Edwards](https://lukeed.com) et [al][contributors]
 
-
-[mit]:          http://opensource.org/licenses/MIT
-[author]:       https://lukeed.com
 [contributors]: https://github.com/lukeed/fly-imba/graphs/contributors
 [releases]:     https://github.com/lukeed/fly-imba/releases
 [fly]:          https://www.github.com/flyjs/fly
