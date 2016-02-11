@@ -1,4 +1,4 @@
-const imba = require('imba')
+const imba = require('imba/compiler')
 
 module.exports = function () {
   this.filter('imba', function(data) {
