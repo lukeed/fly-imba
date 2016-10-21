@@ -10,6 +10,7 @@ module.exports = function () {
 		// modify options for source mapping
 		if (opts.sourceMap) {
 			opts.sourcePath = format(file);
+			opts.targetPath = '.'; // `path.dirname()` throws in 6.x
 		}
 
 		// update file type
