@@ -1,6 +1,6 @@
 {
   "name": "fly-imba",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Compile Imba files with Fly.",
   "license": "MIT",
   "repository": "https://github.com/lukeed/fly-imba",
