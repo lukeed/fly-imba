@@ -1,20 +1,54 @@
-const fs = require('fs')
-const test = require('tape').test
-const imba = require('../')
+'use strict';
 
-test('fly-imba', (t) => {
-  t.plan(3)
+const join = require('path').join;
+const test = require('tape').test;
+const Fly = require('fly');
 
-  const file1 = fs.readFileSync('test/a.imba')
-  const file2 = fs.readFileSync('test/a.js', 'utf8')
+const dir = join(__dirname, 'fixtures');
+const tmp = join(__dirname, 'tmp');
+const map = 'a.js.map';
 
-  imba.call({
-    filter: function(name, fn) {
-      const results = fn(file1)
+test('fly-imba', t => {
+	t.plan(8);
 
-      t.equal(name, 'imba', 'add imba filter to fly')
-      t.equal(results.ext, '.js', 'compiled to ".js" file')
-      t.equal(results.code.js, file2, 'compiled to javascript')
-    }
-  })
-})
+	const fly = new Fly({
+		plugins: [{
+			func: require('../')
+		}],
+		tasks: {
+			a: function * () {
+				const read = () => this.$.read(`${tmp}/a.js`, 'utf8');
+				const want = yield this.$.read(`${dir}/a.js`, 'utf8');
+
+				t.ok('imba' in fly, 'attach `imba()` plugin to fly');
+
+				// #1
+				yield this.source(`${dir}/*.imba`).imba().target(tmp);
+				const str1 = yield read();
+				t.ok(str1, 'convert to `.js` file');
+				t.equal(str1, want, 'compile imba code to correct javascript');
+
+				// #2
+				yield this.source(`${dir}/*.imba`).imba({bare: 1}).target(tmp);
+				const str2 = yield read();
+				t.false(str2.includes('(function(){\n'), 'via `bare`; compile without top-level func wrapper');
+
+				// #3
+				yield this.source(`${dir}/*.imba`).imba({sourceMap: 1}).target(tmp);
+				const str3 = yield read();
+				t.true(str3.includes(`sourceMappingURL=${map}`), 'via `sourceMap`; append url to external source map');
+				t.true(yield this.$.find(`${tmp}/${map}`), 'via `sourceMap`; create an external source map');
+				yield this.clear(tmp);
+
+				// #4
+				yield this.source(`${dir}/*.imba`).imba({sourceMap: 1, sourceMapInline: 1}).target(tmp);
+				const str4 = yield read();
+				t.true(str4.includes(`sourceMappingURL=data:application/json`), 'via `sourceMapInline`; append inline source map');
+				t.false(yield this.$.find(`${tmp}/${map}`), 'via `sourceMapInline`; do not create an external source map');
+				yield this.clear(tmp);
+			}
+		}
+	});
+
+	fly.start('a');
+});
