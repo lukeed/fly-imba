@@ -1,10 +1,11 @@
 'use strict';
 
-const format = require('path').format;
+const {format} = require('path');
 const imba = require('imba/compiler');
 
-module.exports = function () {
-	this.plugin('imba', {}, function * (file, opts) {
+module.exports = {
+	name: 'imba',
+	* func(file, opts) {
 		opts = Object.assign({bare: false, sourceMap: false}, opts);
 
 		// modify options for source mapping
@@ -43,5 +44,5 @@ module.exports = function () {
 
 		// set data
 		file.data = new Buffer(out.js);
-	});
+	}
 };
