@@ -12,8 +12,8 @@ npm install --save-dev fly-imba
 ## Usage
 
 ```js
-exports.default = function * () {
-  yield this.source('app/**/*.imba')
+exports.default = function * (fly) {
+  yield fly.source('app/**/*.imba')
     .imba({
       bare: true,
       sourceMap: true
